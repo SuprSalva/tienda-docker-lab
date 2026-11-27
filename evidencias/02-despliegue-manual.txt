@@ -1,0 +1,40 @@
+PS> docker pull ghcr.io/suprsalva/tienda-docker-lab:1.0.0
+Status: Downloaded newer image for ghcr.io/suprsalva/tienda-docker-lab:1.0.0 (sha256:7084c36a...)
+
+PS> docker tag ghcr.io/suprsalva/tienda-docker-lab:1.0.0 tienda-api:1.0.0
+IMAGE              ID             DISK USAGE   CONTENT SIZE   EXTRA
+tienda-api:1.0     89e5c74e062b        212MB         51.8MB        
+tienda-api:1.0.0   7084c36a4e76        215MB         52.2MB        
+
+PS> kind load docker-image tienda-api:1.0.0 --name devops-clase
+Image: "tienda-api:1.0.0" with ID "sha256:7084c36a4e76f9b266ac31b4bdcb02d0adcc982c6cdfdf765b88f38296ac06b7" not yet present on node "devops-clase-control-plane", loading...
+
+PS> kubectl apply -n staging -f k8s/
+deployment.apps/tienda-api created
+service/tienda-service created
+
+PS> kubectl rollout status deployment/tienda-api -n staging --timeout=120s
+Waiting for deployment "tienda-api" rollout to finish: 0 of 1 updated replicas are available...
+deployment "tienda-api" successfully rolled out
+
+PS> kubectl get deployments -n staging
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+tienda-api   1/1     1            1           0s
+
+PS> kubectl get pods -n staging
+NAME                          READY   STATUS    RESTARTS   AGE
+tienda-api-544955cc8f-b6qp2   1/1     Running   0          1s
+
+PS> kubectl get services -n staging
+NAME             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+tienda-service   ClusterIP   10.96.103.148   <none>        8000/TCP   1s
+
+PS> kubectl get pods,deployments,services -n staging
+NAME                              READY   STATUS    RESTARTS   AGE
+pod/tienda-api-544955cc8f-b6qp2   1/1     Running   0          1s
+
+NAME                         READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/tienda-api   1/1     1            1           1s
+
+NAME                     TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+service/tienda-service   ClusterIP   10.96.103.148   <none>        8000/TCP   1s

@@ -1,0 +1,34 @@
+PS> gh run list --workflow deploy.yml
+completed	success	Despliegue Kubernetes	Despliegue Kubernetes	master	workflow_dispatch	46021799591	29s	2026-11-27T15:05:46Z
+completed	success	Despliegue Kubernetes	Despliegue Kubernetes	master	workflow_dispatch	46021557896	25s	2026-11-27T15:04:13Z
+completed	failure	Despliegue Kubernetes	Despliegue Kubernetes	master	workflow_dispatch	46021469206	14s	2026-11-27T15:03:38Z
+completed	failure	Despliegue Kubernetes	Despliegue Kubernetes	master	workflow_dispatch	46021326058	17s	2026-11-27T15:02:40Z
+
+PS> gh run view 46021799591   (deploy version=1.1.0)
+
+✓ master Despliegue Kubernetes · 46021799591
+Triggered via workflow_dispatch about 1 minute ago
+
+JOBS
+✓ deploy-staging in 25s (ID 140583020516)
+
+ANNOTATIONS
+
+
+For more information about the job, try: gh run view --job=140583020516
+View this run on GitHub: https://github.com/SuprSalva/tienda-docker-lab/actions/runs/46021799591
+
+PS> gh run view 46021799591 --log   (paso: Verificar despliegue)
+kubectl rollout status deployment/tienda-api -n staging --timeout=120s
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+kubectl get pods,deployments,services -n staging
+Waiting for deployment "tienda-api" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "tienda-api" rollout to finish: 1 old replicas are pending termination...
+deployment "tienda-api" successfully rolled out
+NAME                              READY   STATUS        RESTARTS   AGE
+pod/tienda-api-544955cc8f-b6qp2   1/1     Terminating   0          4m53s
+pod/tienda-api-56b8649fdb-cfx7m   1/1     Running       0          0s
+NAME                         READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/tienda-api   1/1     1            1           4m53s
+NAME                     TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+service/tienda-service   ClusterIP   10.96.103.148   <none>        8000/TCP   4m53s

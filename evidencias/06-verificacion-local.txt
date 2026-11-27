@@ -1,0 +1,51 @@
+PS> kubectl get pods -n staging
+NAME                          READY   STATUS    RESTARTS   AGE
+tienda-api-56b8649fdb-cfx7m   1/1     Running   0          17s
+
+PS> kubectl describe deployment tienda-api -n staging
+Name:                   tienda-api
+Namespace:              staging
+CreationTimestamp:      Fri, 27 Nov 2026 09:01:17 -0600
+Labels:                 <none>
+Annotations:            deployment.kubernetes.io/revision: 2
+Selector:               app=tienda-api
+Replicas:               1 desired | 1 updated | 1 total | 1 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  app=tienda-api
+  Containers:
+   tienda:
+    Image:         tienda-api:1.1.0
+    Port:          8000/TCP
+    Host Port:     0/TCP
+    Environment:   <none>
+    Mounts:        <none>
+  Volumes:         <none>
+  Node-Selectors:  <none>
+  Tolerations:     <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  tienda-api-544955cc8f (0/0 replicas created)
+NewReplicaSet:   tienda-api-56b8649fdb (1/1 replicas created)
+Events:
+  Type    Reason             Age    From                   Message
+  ----    ------             ----   ----                   -------
+  Normal  ScalingReplicaSet  5m10s  deployment-controller  Scaled up replica set tienda-api-544955cc8f from 0 to 1
+  Normal  ScalingReplicaSet  17s    deployment-controller  Scaled up replica set tienda-api-56b8649fdb from 0 to 1
+  Normal  ScalingReplicaSet  17s    deployment-controller  Scaled down replica set tienda-api-544955cc8f from 1 to 0
+
+PS> kubectl get deployment tienda-api -n staging -o jsonpath='{.spec.template.spec.containers[0].image}'
+tienda-api:1.1.0
+
+
+PS> kubectl rollout history deployment/tienda-api -n staging
+deployment.apps/tienda-api 
+REVISION  CHANGE-CAUSE
+1         <none>
+2         <none>
+

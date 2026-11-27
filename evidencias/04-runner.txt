@@ -1,0 +1,11 @@
+PS> .\config.cmd --url https://github.com/SuprSalva/tienda-docker-lab --token ******
+√ Runner successfully added
+√ Settings Saved.
+
+PS> .\run.cmd
+√ Connected to GitHub
+Current runner version: '2.338.2'
+Listening for Jobs
+
+PS> gh api repos/SuprSalva/tienda-docker-lab/actions/runners  (nombre | estado | etiquetas)
+ASUSSALVAPC-tienda | online | self-hosted,Windows,X64

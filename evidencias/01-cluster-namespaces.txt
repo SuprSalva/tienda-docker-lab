@@ -1,0 +1,28 @@
+PS> docker info (resumen)
+Server Version: 29.8.1 | OS: Docker Desktop (containerized) | Containers: 19
+
+PS> kind get clusters
+devops-clase
+
+PS> kubectl config use-context kind-devops-clase
+Switched to context "kind-devops-clase".
+
+PS> kubectl get nodes
+NAME                         STATUS   ROLES           AGE   VERSION
+devops-clase-control-plane   Ready    control-plane   15d   v1.37.0
+
+PS> kubectl create namespace staging
+namespace/staging created
+
+PS> kubectl create namespace production
+namespace/production created
+
+PS> kubectl get namespaces
+NAME                 STATUS   AGE
+default              Active   15d
+kube-node-lease      Active   15d
+kube-public          Active   15d
+kube-system          Active   15d
+local-path-storage   Active   15d
+production           Active   0s
+staging              Active   0s
