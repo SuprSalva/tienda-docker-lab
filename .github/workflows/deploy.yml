@@ -27,13 +27,13 @@ jobs:
       - name: Descargar imagen Docker
         shell: powershell
         run: |
-          docker pull "$env:IMAGEN_GHCR:${{ inputs.version }}"
+          docker pull "${{ env.IMAGEN_GHCR }}:${{ inputs.version }}"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Preparar imagen para kind
         shell: powershell
         run: |
-          docker tag "$env:IMAGEN_GHCR:${{ inputs.version }}" "tienda-api:${{ inputs.version }}"
+          docker tag "${{ env.IMAGEN_GHCR }}:${{ inputs.version }}" "tienda-api:${{ inputs.version }}"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           kind load docker-image "tienda-api:${{ inputs.version }}" --name $env:CLUSTER
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
