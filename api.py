@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 
 app = FastAPI(title="Tienda API", version=VERSION)
 
